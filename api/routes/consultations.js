@@ -1,8 +1,22 @@
 const ConsultationsModel = require('../app/models')['Consultations']
+const UsersModel = require('../app/models')['Users']
+const MedicsModel = require('../app/models')['Medics']
+
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 const RouterConsultationsModel = {
   getAll: async (req, res) => {
-    const consultations = await ConsultationsModel.findAll()
+    const consultations = await ConsultationsModel.findAll({
+      include: [
+        {
+          model: UsersModel
+        },
+        {
+          model: MedicsModel
+        },
+      ]
+    })
     res.json(consultations)
   },
 

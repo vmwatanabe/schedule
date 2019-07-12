@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const router = express.Router()
+const cors = require('cors')
 
 const bodyParser = require('body-parser')
 const models = require('../app/models')
@@ -10,6 +11,7 @@ const RouterUsers = require('../routes/users')
 const RouterMedics = require('../routes/medics')
 const RouterConsultations = require('../routes/consultations')
 
+app.use(cors())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
