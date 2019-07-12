@@ -1,12 +1,32 @@
 const UsersModel = require('../app/models')['Users']
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 const RouterUser = {
-  getByName: (req, res) => {
-    
+  getByName: async (req, res) => {
+    const {name} = req.query
+
+    const users = await UsersModel.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${name}%`
+        }
+      }
+    })
+
+    res.json(users)
   },
 
-  getById: (req, res) => {
-    
+  getById: async (req, res) => {
+    const {id} = req.query
+
+    const users = await UsersModel.findAll({
+      where: {
+        id
+      }
+    })
+
+    res.json(users)
   },
 
   post: async (req, res) => {

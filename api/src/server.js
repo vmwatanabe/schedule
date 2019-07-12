@@ -16,11 +16,20 @@ app.use(bodyParser.json())
 router.get('/', (req, res) => {
   models.Users.Op
   models.Users.findAll().then(pr => console.log(pr))
-  res.json({message: 'Node BFF'})
+  res.json({message: 'Schedule API'})
 })
 
+// USERS ROUTES
+router.route('/get-user-id').get(RouterUsers.getById)
+router.route('/get-users-by-name').get(RouterUsers.getByName)
 router.route('/create-user').post(RouterUsers.post)
+
+// MEDICS ROUTES
+router.route('/get-medic-id').get(RouterMedics.getById)
+router.route('/get-medics-by-name').get(RouterMedics.getByName)
 router.route('/create-medic').post(RouterMedics.post)
+
+// CONSULTATIONS ROUTES
 router.route('/create-consultation').post(RouterConsultations.post)
 
 app.use('/api', router)
