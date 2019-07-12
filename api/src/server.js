@@ -32,7 +32,7 @@ router.route('/get-medics-by-name').get(RouterMedics.getByName)
 router.route('/create-medic').post(RouterMedics.post)
 
 // CONSULTATIONS ROUTES
-router.route('/get-consultations').post(RouterConsultations.getAll)
+router.route('/get-consultations').get(RouterConsultations.getAll)
 router.route('/create-consultation').post(RouterConsultations.post)
 
 app.use('/api', router)
