@@ -12,9 +12,17 @@ function getMedicsById (id) {
 }
 
 function getMedics () {
-
   return new Promise((resolve, reject) => {
     axios.get(`${api}/get-medics`)
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
+function postMedic (params) {
+  return new Promise((resolve, reject) => {
+    axios.post(`${api}/create-medic`, params)
       .then(res => {
         resolve(res)
       })
@@ -24,4 +32,5 @@ function getMedics () {
 export default {
   getMedicsById,
   getMedics,
+  postMedic
 }

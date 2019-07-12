@@ -5,7 +5,7 @@ function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field])
 }
 
-class FormUser extends Component {
+class FormMedic extends Component {
   componentDidMount() {
     this.props.form.validateFields()
   }
@@ -31,22 +31,22 @@ class FormUser extends Component {
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
 
     // Only show error after a field is touched.
-    const userNameError = isFieldTouched('name') && getFieldError('name')
-    const userPhoneError = isFieldTouched('phone') && getFieldError('phone')
-    const userEmailError = isFieldTouched('email') && getFieldError('email')
+    const medicNameError = isFieldTouched('name') && getFieldError('name')
+    const medicPhoneError = isFieldTouched('phone') && getFieldError('phone')
+    const medicEmailError = isFieldTouched('email') && getFieldError('email')
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Form.Item validateStatus={userNameError ? 'error' : ''} help={userNameError || ''}>
+        <Form.Item validateStatus={medicNameError ? 'error' : ''} help={medicNameError || ''}>
           {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
           })(
             <Input
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Nome do usuário"
+              placeholder="Nome do médico"
             />,
           )}
         </Form.Item>
-        <Form.Item validateStatus={userPhoneError ? 'error' : ''} help={userPhoneError || ''}>
+        <Form.Item validateStatus={medicPhoneError ? 'error' : ''} help={medicPhoneError || ''}>
           {getFieldDecorator('phone')(
             <Input
               prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -55,7 +55,7 @@ class FormUser extends Component {
             />,
           )}
         </Form.Item>
-        <Form.Item validateStatus={userEmailError ? 'error' : ''} help={userEmailError || ''}>
+        <Form.Item validateStatus={medicEmailError ? 'error' : ''} help={medicEmailError || ''}>
           {getFieldDecorator('email')(
             <Input
               prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -66,7 +66,7 @@ class FormUser extends Component {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
-            Cadastrar Usuário
+            Cadastrar Médico
           </Button>
           <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>
             Limpar campos
@@ -77,6 +77,6 @@ class FormUser extends Component {
   }
 }
 
-const WrappedUserForm = Form.create({ name: 'create_user' })(FormUser)
+const WrappedMedicForm = Form.create({ name: 'create_medic' })(FormMedic)
 
-export default WrappedUserForm
+export default WrappedMedicForm

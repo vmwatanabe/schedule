@@ -12,9 +12,17 @@ function getUserById (id) {
 }
 
 function getUsers () {
-
   return new Promise((resolve, reject) => {
     axios.get(`${api}/get-users`)
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
+function postUser (params) {
+  return new Promise((resolve, reject) => {
+    axios.post(`${api}/create-user`, params)
       .then(res => {
         resolve(res)
       })
@@ -24,4 +32,5 @@ function getUsers () {
 export default {
   getUserById,
   getUsers,
+  postUser,
 }

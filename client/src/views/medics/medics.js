@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
 
+import FormMedic from '../../components/formMedic/formMedic'
+
 import MedicsService from '../../services/medics'
 
 class Medics extends Component {
@@ -55,11 +57,21 @@ class Medics extends Component {
       })
   }
 
+  onCreateMedic(params) {
+    MedicsService.postMedic(params)
+      .then(() => {
+        this.setState({
+          loading: false
+        }, this.getMedics.bind(this))
+      })
+  }
+
   render () {
     const {loading, currentMedics} = this.state
 
     return (
       <div className="medics">
+        <FormMedic onSubmit={this.onCreateMedic.bind(this)}/>
         <Table
           columns={this.columns}
           loading={loading}

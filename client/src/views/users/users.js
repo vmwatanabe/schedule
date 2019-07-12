@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
 
+import FormUser from '../../components/formUser/formUser'
+
 import UsersService from '../../services/users'
 
 class Medics extends Component {
@@ -55,11 +57,21 @@ class Medics extends Component {
       })
   }
 
+  onCreateUser(params) {
+    UsersService.postUser(params)
+      .then(() => {
+        this.setState({
+          loading: false
+        }, this.getUsers.bind(this))
+      })
+  }
+
   render () {
     const {loading, currentUsers} = this.state
 
     return (
       <div className="users">
+        <FormUser onSubmit={this.onCreateUser.bind(this)}/>
         <Table
           columns={this.columns}
           loading={loading}
