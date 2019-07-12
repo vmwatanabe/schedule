@@ -1,11 +1,12 @@
-import React from 'react';
+import React from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 
 import Home from './views/home/home'
 import Medics from './views/medics/medics'
 import Users from './views/users/users'
 
-import './App.css';
+import './App.css'
+import 'antd/dist/antd.css'
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
         <Route path="/users/" component={Users} />
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
