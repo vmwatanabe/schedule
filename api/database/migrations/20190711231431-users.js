@@ -11,7 +11,7 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       email: {
         allowNull: true,
@@ -40,7 +40,7 @@ module.exports = {
           },
           name: {
             allowNull: false,
-            type: Sequelize.DATE
+            type: Sequelize.STRING,
           },
           email: {
             allowNull: true,
