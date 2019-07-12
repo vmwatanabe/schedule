@@ -3,6 +3,11 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 const RouterUser = {
+  getAll: async (req, res) => {
+    const users = await UsersModel.findAll()
+    res.json(users)
+  },
+
   getByName: async (req, res) => {
     const {name} = req.query
 

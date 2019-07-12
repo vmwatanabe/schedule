@@ -1,6 +1,11 @@
 const ConsultationsModel = require('../app/models')['Consultations']
 
 const RouterConsultationsModel = {
+  getAll: async (req, res) => {
+    const consultations = await ConsultationsModel.findAll()
+    res.json(consultations)
+  },
+
   getById: (req, res) => {
     
   },

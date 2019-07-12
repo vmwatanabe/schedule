@@ -20,16 +20,19 @@ router.get('/', (req, res) => {
 })
 
 // USERS ROUTES
+router.route('/get-users').get(RouterUsers.getAll)
 router.route('/get-user-id').get(RouterUsers.getById)
 router.route('/get-users-by-name').get(RouterUsers.getByName)
 router.route('/create-user').post(RouterUsers.post)
 
 // MEDICS ROUTES
+router.route('/get-medics').get(RouterMedics.getAll)
 router.route('/get-medic-id').get(RouterMedics.getById)
 router.route('/get-medics-by-name').get(RouterMedics.getByName)
 router.route('/create-medic').post(RouterMedics.post)
 
 // CONSULTATIONS ROUTES
+router.route('/get-consultations').post(RouterConsultations.getAll)
 router.route('/create-consultation').post(RouterConsultations.post)
 
 app.use('/api', router)
