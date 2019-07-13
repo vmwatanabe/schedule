@@ -43,6 +43,18 @@ const RouterUser = {
 
     const user = await UsersModel.create({name, email, phone})
     res.json(user)
+  },
+
+  removeById: async (req, res) => {
+    const {id} = req.body
+
+    if (!id)
+      return res.status(500).send('Invalid id!')
+
+    const user = await UsersModel.findByPk(id)
+    user && user.destroy()
+    
+    return res.status(200)
   }
 }
 

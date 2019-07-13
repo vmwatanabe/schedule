@@ -36,6 +36,18 @@ const RouterConsultationsModel = {
 
     const medic = await ConsultationsModel.create({userId, medicId, scheduledTo: new Date(scheduledTo).toISOString()})
     res.json(medic);
+  },
+
+  removeById: async (req, res) => {
+    const {id} = req.body
+
+    if (!id)
+      return res.status(500).send('Invalid id!')
+
+    const consultation = await ConsultationsModel.findByPk(id)
+    consultation && consultation.destroy()
+
+    return res.status(200)
   }
 }
 

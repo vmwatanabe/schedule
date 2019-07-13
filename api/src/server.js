@@ -26,16 +26,19 @@ router.route('/get-users').get(RouterUsers.getAll)
 router.route('/get-user-id').get(RouterUsers.getById)
 router.route('/get-users-by-name').get(RouterUsers.getByName)
 router.route('/create-user').post(RouterUsers.post)
+router.route('/delete-user').delete(RouterUsers.removeById)
 
 // MEDICS ROUTES
 router.route('/get-medics').get(RouterMedics.getAll)
 router.route('/get-medic-id').get(RouterMedics.getById)
 router.route('/get-medics-by-name').get(RouterMedics.getByName)
 router.route('/create-medic').post(RouterMedics.post)
+router.route('/delete-medic').delete(RouterMedics.removeById)
 
 // CONSULTATIONS ROUTES
 router.route('/get-consultations').get(RouterConsultations.getAll)
 router.route('/create-consultation').post(RouterConsultations.post)
+router.route('/delete-consultation').delete(RouterConsultations.removeById)
 
 app.use('/api', router)
 
