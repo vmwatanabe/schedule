@@ -30,7 +30,6 @@ class FormUser extends Component {
   render() {
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
 
-    // Only show error after a field is touched.
     const userNameError = isFieldTouched('name') && getFieldError('name')
     const userPhoneError = isFieldTouched('phone') && getFieldError('phone')
     const userEmailError = isFieldTouched('email') && getFieldError('email')

@@ -30,7 +30,6 @@ class FormMedic extends Component {
   render() {
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
 
-    // Only show error after a field is touched.
     const medicNameError = isFieldTouched('name') && getFieldError('name')
     const medicPhoneError = isFieldTouched('phone') && getFieldError('phone')
     const medicEmailError = isFieldTouched('email') && getFieldError('email')

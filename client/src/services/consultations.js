@@ -21,7 +21,17 @@ function getConsultations () {
   })
 }
 
+function postConsultation (params) {
+  return new Promise((resolve, reject) => {
+    axios.post(`${api}/create-consultation`, params)
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
 export default {
   getConsultationById,
   getConsultations,
+  postConsultation,
 }

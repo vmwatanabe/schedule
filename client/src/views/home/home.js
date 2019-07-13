@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
 
+import FormSchedule from '../../components/formSchedule/formSchedule'
+
 import ConsultationsService from '../../services/consultations'
 
 class Home extends Component {
@@ -56,11 +58,21 @@ class Home extends Component {
       })
   }
 
+  onCreateConsultation(params) {
+    ConsultationsService.postConsultation(params)
+      .then(() => {
+        this.setState({
+          loading: false
+        }, this.getConsultations.bind(this))
+      })
+  }
+
   render () {
     const {loading, currentConsultations} = this.state
 
     return (
       <div className="home">
+        <FormSchedule onSubmit={this.onCreateConsultation.bind(this)}/>
         <Table
           columns={this.columns}
           loading={loading}
