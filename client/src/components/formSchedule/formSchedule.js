@@ -75,11 +75,11 @@ class FormSchedule extends Component {
         <Form.Item validateStatus={medicNameError ? 'error' : ''} help={medicNameError || ''}>
           {getFieldDecorator('medicId', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
-            initialValue: (initialValue && initialValue.medicId) ? initialValue.medicId : null
+            initialValue: (initialValue && initialValue.medicId) ? initialValue.medicId : undefined
           })(
             <Select
               showSearch
-              style={{ width: 200 }}
+              style={{ width: 472 }}
               placeholder="Selecione o médico"
               optionFilterProp="children"
               filterOption={(input, option) =>
@@ -95,11 +95,11 @@ class FormSchedule extends Component {
         <Form.Item validateStatus={userError ? 'error' : ''} help={userError || ''}>
           {getFieldDecorator('userId', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
-            initialValue: (initialValue && initialValue.userId) ? initialValue.userId : null
+            initialValue: (initialValue && initialValue.userId) ? initialValue.userId : undefined
           })(
             <Select
               showSearch
-              style={{ width: 200 }}
+              style={{ width: 472 }}
               placeholder="Selecione o paciente"
               optionFilterProp="children"
               filterOption={(input, option) =>
@@ -118,12 +118,13 @@ class FormSchedule extends Component {
             initialValue: (initialValue && initialValue.scheduledTo) ? moment(initialValue.scheduledTo) : null
           })(
             <DatePicker
+              style={{ width: 472 }}
               showTime
             />
           )}
         </Form.Item>
         <Form.Item>
-          <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>
+          <Button onClick={this.handleReset.bind(this)}>
             Limpar campos
           </Button>
         </Form.Item>

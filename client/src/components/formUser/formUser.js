@@ -68,7 +68,7 @@ class FormUser extends Component {
           )}
         </Form.Item>
         <Form.Item>
-          <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>
+          <Button onClick={this.handleReset.bind(this)}>
             Limpar campos
           </Button>
         </Form.Item>
