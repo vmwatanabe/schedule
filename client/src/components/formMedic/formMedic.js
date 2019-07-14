@@ -33,6 +33,7 @@ class FormMedic extends Component {
     const medicNameError = isFieldTouched('name') && getFieldError('name')
     const medicPhoneError = isFieldTouched('phone') && getFieldError('phone')
     const medicEmailError = isFieldTouched('email') && getFieldError('email')
+    const medicDocumentError = isFieldTouched('document') && getFieldError('document')
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Item validateStatus={medicNameError ? 'error' : ''} help={medicNameError || ''}>
@@ -60,6 +61,17 @@ class FormMedic extends Component {
               prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="email"
               placeholder="E-Mail"
+            />,
+          )}
+        </Form.Item>
+        <Form.Item validateStatus={medicDocumentError ? 'error' : ''} help={medicDocumentError || ''}>
+          {getFieldDecorator('document', {
+            rules: [{ required: true, message: 'Campo obrigatório' }],
+          })(
+            <Input
+              prefix={<Icon type="wallet" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="document"
+              placeholder="CPF"
             />,
           )}
         </Form.Item>

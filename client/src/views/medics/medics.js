@@ -21,6 +21,11 @@ class Medics extends Component {
         key: 'name',
       },
       {
+        title: 'CPF',
+        dataIndex: 'document',
+        key: 'document',
+      },
+      {
         title: 'E-mail',
         dataIndex: 'email',
         key: 'email',

@@ -33,6 +33,7 @@ class FormUser extends Component {
     const userNameError = isFieldTouched('name') && getFieldError('name')
     const userPhoneError = isFieldTouched('phone') && getFieldError('phone')
     const userEmailError = isFieldTouched('email') && getFieldError('email')
+    const userDocumentError = isFieldTouched('document') && getFieldError('document')
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Item validateStatus={userNameError ? 'error' : ''} help={userNameError || ''}>
@@ -60,6 +61,17 @@ class FormUser extends Component {
               prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="email"
               placeholder="E-Mail"
+            />,
+          )}
+        </Form.Item>
+        <Form.Item validateStatus={userDocumentError ? 'error' : ''} help={userDocumentError || ''}>
+          {getFieldDecorator('document', {
+            rules: [{ required: true, message: 'Campo obrigatório' }],
+          })(
+            <Input
+              prefix={<Icon type="wallet" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="document"
+              placeholder="CPF"
             />,
           )}
         </Form.Item>
