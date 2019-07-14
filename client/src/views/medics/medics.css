@@ -9,7 +9,11 @@
 }
 
 .title {
-  display: block;
+  display: flex;
+}
+
+.title input {
+  margin-left: 30px;
 }
 
 .title span {

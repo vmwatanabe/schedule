@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Divider } from 'antd'
+import { Table, Button, Divider, Input} from 'antd'
 
 import ModalUser from '../../components/modalUser/modalUser'
 
@@ -133,6 +133,31 @@ class Medics extends Component {
       })
   }
 
+  onSearchChange(e) {
+    const value = e.target.value
+    if (e.target.value) {
+      this.setLoading(() => this.getUsersByName(value))
+    } else {
+      this.setLoading(this.getUsers.bind(this))
+    }
+  }
+
+  getUsersByName(value) {
+    UsersService.getUsersByName(value)
+      .then(res => {
+        this.setState({
+          loading: false,
+          currentUsers: res.data
+        })
+      })
+      .catch(err => {
+        this.setState({
+          loading: false
+        })
+        console.log('error: ', err)
+      })
+  }
+
   render () {
     const {loading, currentUsers} = this.state
 
@@ -141,6 +166,11 @@ class Medics extends Component {
         <div className="details">
           <div className="title">
             <span>Usuários</span>
+            <Input
+              onChange={this.onSearchChange.bind(this)}
+              placeholder="Pesquisar usuário por nome"
+              style={{ width: 200 }}
+            />
           </div>
           <Button onClick={() => this.setState({modalOpen: true})}>Criar usuário</Button>
         </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Divider } from 'antd'
+import { Table, Button, Divider, Input } from 'antd'
 
 import ModalMedic from '../../components/modalMedic/modalMedic'
 
@@ -133,6 +133,32 @@ class Medics extends Component {
       })
   }
 
+  onSearchChange(e) {
+    const value = e.target.value
+    if (e.target.value) {
+      this.setLoading(() => this.getMedicsByName(value))
+    } else {
+      this.setLoading(this.getMedics.bind(this))
+    }
+  }
+
+  getMedicsByName(value) {
+    MedicsService.getMedicsByName(value)
+      .then(res => {
+        this.setState({
+          loading: false,
+          currentMedics: res.data || []
+        })
+      })
+      .catch(err => {
+        this.setState({
+          loading: false
+        })
+        console.log('error: ', err)
+      })
+  }
+
+
   render () {
     const {loading, currentMedics} = this.state
 
@@ -141,6 +167,11 @@ class Medics extends Component {
         <div className="details">
           <div className="title">
             <span>Médicos</span>
+            <Input
+              onChange={this.onSearchChange.bind(this)}
+              placeholder="Pesquisar médico por nome"
+              style={{ width: 200 }}
+            />
           </div>
           <Button onClick={() => this.setState({modalOpen: true})}>Criar médico</Button>
         </div>

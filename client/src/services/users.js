@@ -20,6 +20,15 @@ function getUsers () {
   })
 }
 
+function getUsersByName (name) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${api}/get-users-by-name`, {params: {name}})
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
 function postUser (params) {
   return new Promise((resolve, reject) => {
     axios.post(`${api}/create-user`, params)
@@ -52,5 +61,6 @@ export default {
   getUsers,
   postUser,
   deleteUser,
-  editUser
+  editUser,
+  getUsersByName
 }

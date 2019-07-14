@@ -20,6 +20,15 @@ function getMedics () {
   })
 }
 
+function getMedicsByName (name) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${api}/get-medics-by-name`, {params: {name}})
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
 function postMedic (params) {
   return new Promise((resolve, reject) => {
     axios.post(`${api}/create-medic`, params)
@@ -50,6 +59,7 @@ function editMedic (params) {
 export default {
   getMedicsById,
   getMedics,
+  getMedicsByName,
   postMedic,
   deleteMedic,
   editMedic
