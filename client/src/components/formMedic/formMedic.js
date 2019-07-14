@@ -1,41 +1,25 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button } from 'antd'
 
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field])
-}
-
 class FormMedic extends Component {
   componentDidMount() {
     this.props.form.validateFields()
   }
 
-  handleSubmit = e => {
-    const {onSubmit} = this.props
-
-    e.preventDefault()
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        onSubmit && onSubmit(values)
-        this.handleReset()
-      }
-    })
-  }
-
   handleReset = () => {
-    this.props.form.resetFields();
+    this.props.form.resetFields()
   };
 
 
   render() {
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
+    const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form
 
     const medicNameError = isFieldTouched('name') && getFieldError('name')
     const medicPhoneError = isFieldTouched('phone') && getFieldError('phone')
     const medicEmailError = isFieldTouched('email') && getFieldError('email')
     const medicDocumentError = isFieldTouched('document') && getFieldError('document')
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <Form.Item validateStatus={medicNameError ? 'error' : ''} help={medicNameError || ''}>
           {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
@@ -76,9 +60,6 @@ class FormMedic extends Component {
           )}
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
-            Cadastrar Médico
-          </Button>
           <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>
             Limpar campos
           </Button>

@@ -1,41 +1,24 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button } from 'antd'
 
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field])
-}
-
 class FormUser extends Component {
   componentDidMount() {
     this.props.form.validateFields()
   }
 
-  handleSubmit = e => {
-    const {onSubmit} = this.props
-
-    e.preventDefault()
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        onSubmit && onSubmit(values)
-        this.handleReset()
-      }
-    })
+  handleReset = () => {
+    this.props.form.resetFields()
   }
 
-  handleReset = () => {
-    this.props.form.resetFields();
-  };
-
-
   render() {
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
+    const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form
 
     const userNameError = isFieldTouched('name') && getFieldError('name')
     const userPhoneError = isFieldTouched('phone') && getFieldError('phone')
     const userEmailError = isFieldTouched('email') && getFieldError('email')
     const userDocumentError = isFieldTouched('document') && getFieldError('document')
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <Form.Item validateStatus={userNameError ? 'error' : ''} help={userNameError || ''}>
           {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
@@ -76,9 +59,6 @@ class FormUser extends Component {
           )}
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
-            Cadastrar Usuário
-          </Button>
           <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>
             Limpar campos
           </Button>

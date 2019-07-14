@@ -6,10 +6,6 @@ import UsersService from '../../services/users'
 
 const { Option } = Select
 
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field])
-}
-
 class FormSchedule extends Component {
   constructor(props) {
     super(props)
@@ -60,37 +56,18 @@ class FormSchedule extends Component {
       })
   }
 
-  handleSubmit = e => {
-    const {onSubmit} = this.props
-
-    e.preventDefault()
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        onSubmit && onSubmit({
-          ...values,
-          scheduledTo: values.scheduledTo.toISOString()
-        })
-        this.handleReset()
-      }
-    })
-  }
-
   handleReset = () => {
     this.props.form.resetFields()
   }
 
-  onChangeDate(date, dateString) {
-    console.log(date, dateString);
-  }
-
   render() {
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form
+    const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form
 
     const medicNameError = isFieldTouched('medicId') && getFieldError('medicId')
-    const medicPhoneError = isFieldTouched('userId') && getFieldError('userId')
-    const medicEmailError = isFieldTouched('scheduledTo') && getFieldError('scheduledTo')
+    const userError = isFieldTouched('userId') && getFieldError('userId')
+    const scheduledError = isFieldTouched('scheduledTo') && getFieldError('scheduledTo')
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <Form.Item validateStatus={medicNameError ? 'error' : ''} help={medicNameError || ''}>
           {getFieldDecorator('medicId', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
@@ -110,7 +87,7 @@ class FormSchedule extends Component {
             </Select>
           )}
         </Form.Item>
-        <Form.Item validateStatus={medicPhoneError ? 'error' : ''} help={medicPhoneError || ''}>
+        <Form.Item validateStatus={userError ? 'error' : ''} help={userError || ''}>
           {getFieldDecorator('userId', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
           })(
@@ -129,20 +106,16 @@ class FormSchedule extends Component {
             </Select>
           )}
         </Form.Item>
-        <Form.Item validateStatus={medicEmailError ? 'error' : ''} help={medicEmailError || ''}>
+        <Form.Item validateStatus={scheduledError ? 'error' : ''} help={scheduledError || ''}>
           {getFieldDecorator('scheduledTo', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
           })(
             <DatePicker
-              onChange={this.onChangeDate.bind(this)}
               showTime
             />
           )}
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
-            Cadastrar Consulta
-          </Button>
           <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>
             Limpar campos
           </Button>
@@ -152,6 +125,6 @@ class FormSchedule extends Component {
   }
 }
 
-const WrappedMedicForm = Form.create({ name: 'create_medic' })(FormSchedule)
+const WrappedMedicForm = Form.create({ name: 'create_schedule' })(FormSchedule)
 
 export default WrappedMedicForm

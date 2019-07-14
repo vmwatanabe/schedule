@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 
-import FormMedic from '../../components/formMedic/formMedic'
+import ModalMedic from '../../components/modalMedic/modalMedic'
 
 import MedicsService from '../../services/medics'
 
@@ -11,7 +11,8 @@ class Medics extends Component {
 
     this.state = {
       currentMedics: [],
-      loading: false
+      loading: false,
+      modalOpen: false
     }
 
     this.columns = [
@@ -90,7 +91,8 @@ class Medics extends Component {
     MedicsService.postMedic(params)
       .then(() => {
         this.setState({
-          loading: false
+          loading: false,
+          modalOpen: false
         }, this.getMedics.bind(this))
       })
   }
@@ -100,7 +102,12 @@ class Medics extends Component {
 
     return (
       <div className="medics">
-        <FormMedic onSubmit={this.onCreateMedic.bind(this)}/>
+        <Button onClick={() => this.setState({modalOpen: true})}>Criar médico</Button>
+        <ModalMedic
+          visible={this.state.modalOpen}
+          onOk={this.onCreateMedic.bind(this)}
+          onCancel={() => this.setState({modalOpen: false})}
+        />
         <Table
           columns={this.columns}
           loading={loading}

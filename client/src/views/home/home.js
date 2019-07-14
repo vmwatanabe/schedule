@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 
-import FormSchedule from '../../components/formSchedule/formSchedule'
+import ModalSchedule from '../../components/modalSchedule/modalSchedule'
 
 import ConsultationsService from '../../services/consultations'
 
@@ -11,7 +11,8 @@ class Home extends Component {
 
     this.state = {
       currentConsultations: [],
-      loading: false
+      loading: false,
+      modalOpen: false
     }
 
     this.columns = [
@@ -76,7 +77,8 @@ class Home extends Component {
     ConsultationsService.postConsultation(params)
       .then(() => {
         this.setState({
-          loading: false
+          loading: false,
+          modalOpen: false
         }, this.getConsultations.bind(this))
       })
   }
@@ -96,7 +98,12 @@ class Home extends Component {
 
     return (
       <div className="home">
-        <FormSchedule onSubmit={this.onCreateConsultation.bind(this)}/>
+        <Button onClick={() => this.setState({modalOpen: true})}>Criar consulta</Button>
+        <ModalSchedule
+          visible={this.state.modalOpen}
+          onOk={this.onCreateConsultation.bind(this)}
+          onCancel={() => this.setState({modalOpen: false})}
+        />
         <Table
           columns={this.columns}
           loading={loading}

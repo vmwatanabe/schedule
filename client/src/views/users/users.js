@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 
-import FormUser from '../../components/formUser/formUser'
+import ModalUser from '../../components/modalUser/modalUser'
 
 import UsersService from '../../services/users'
 
@@ -11,7 +11,8 @@ class Medics extends Component {
 
     this.state = {
       currentUsers: [],
-      loading: false
+      loading: false,
+      modalOpen: false
     }
 
     this.columns = [
@@ -80,7 +81,8 @@ class Medics extends Component {
     UsersService.postUser(params)
       .then(() => {
         this.setState({
-          loading: false
+          loading: false,
+          modalOpen: false
         }, this.getUsers.bind(this))
       })
   }
@@ -100,7 +102,12 @@ class Medics extends Component {
 
     return (
       <div className="users">
-        <FormUser onSubmit={this.onCreateUser.bind(this)}/>
+        <Button onClick={() => this.setState({modalOpen: true})}>Criar usuário</Button>
+        <ModalUser
+          visible={this.state.modalOpen}
+          onOk={this.onCreateUser.bind(this)}
+          onCancel={() => this.setState({modalOpen: false})}
+        />
         <Table
           columns={this.columns}
           loading={loading}
