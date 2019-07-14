@@ -32,13 +32,27 @@ class Medics extends Component {
         key: 'phone',
         render: data => data || '-'
       },
+      {
+        title: 'Ações',
+        key: 'action',
+        render: (text, record) => (
+          <div className="actions">
+            <span onClick={() => 1}>Editar</span>
+            <span onClick={() => this.setLoading(this.deleteMedic.bind(this, record.id))}>Deletar</span>
+          </div>
+        ),
+      },
     ]
   }
 
   componentDidMount() {
+    this.setLoading(this.getMedics.bind(this))
+  }
+
+  setLoading(callback) {
     this.setState({
       loading: true
-    }, this.getMedics.bind(this))
+    }, callback)
   }
 
   getMedics() {
@@ -54,6 +68,16 @@ class Medics extends Component {
           loading: false
         })
         console.log('error: ', err)
+      })
+  }
+
+  deleteMedic(id) {
+    MedicsService.deleteMedic(id)
+      .then(this.getMedics.bind(this))
+      .finally(res => {
+        this.setState({
+          loading: false
+        })
       })
   }
 

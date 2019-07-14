@@ -29,8 +29,18 @@ function postMedic (params) {
   })
 }
 
+function deleteMedic (id) {
+  return new Promise((resolve, reject) => {
+    axios.delete(`${api}/delete-medic`, {data: {id}})
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
 export default {
   getMedicsById,
   getMedics,
-  postMedic
+  postMedic,
+  deleteMedic
 }

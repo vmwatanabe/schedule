@@ -29,8 +29,18 @@ function postUser (params) {
   })
 }
 
+function deleteUser (id) {
+  return new Promise((resolve, reject) => {
+    axios.delete(`${api}/delete-user`, {data: {id}})
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
 export default {
   getUserById,
   getUsers,
   postUser,
+  deleteUser,
 }

@@ -19,27 +19,41 @@ class Home extends Component {
         title: 'Nome do Usuário',
         dataIndex: 'User',
         key: 'User',
-        render: user => <span>{user.name}</span>
+        render: user => <span>{(user && user.name) || '-'}</span>
       },
       {
         title: 'Nome do Médico',
         dataIndex: 'Medic',
         key: 'Medic',
-        render: medic => <span>{medic.name}</span>
+        render: medic => <span>{(medic && medic.name) || '-'}</span>
       },
       {
         title: 'Data e hora',
         dataIndex: 'scheduledTo',
         key: 'scheduledTo',
         render: date => <span>{date}</span>
-      }
+      },
+      {
+        title: 'Ações',
+        key: 'action',
+        render: (text, record) => (
+          <div className="actions">
+            <span onClick={() => 1}>Editar</span>
+            <span onClick={() => this.setLoading(this.deleteConsultation.bind(this, record.id))}>Deletar</span>
+          </div>
+        ),
+      },
     ]
   }
 
   componentDidMount() {
+    this.setLoading(this.getConsultations.bind(this))
+  }
+
+  setLoading(callback) {
     this.setState({
       loading: true
-    }, this.getConsultations.bind(this))
+    }, callback)
   }
 
   getConsultations() {
@@ -64,6 +78,16 @@ class Home extends Component {
         this.setState({
           loading: false
         }, this.getConsultations.bind(this))
+      })
+  }
+
+  deleteConsultation(id) {
+    ConsultationsService.deleteConsultation(id)
+      .then(this.setLoading.bind(this, this.getConsultations.bind(this)))
+      .finally(res => {
+        this.setState({
+          loading: false
+        })
       })
   }
 
