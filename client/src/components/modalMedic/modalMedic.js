@@ -11,13 +11,15 @@ class ModalMedic extends Component {
   }
 
   handleOk = e => {
-    const {onOk} = this.props
+    const {onOk, onError} = this.props
 
     const {form} = this.formRef.props
 
     form.validateFields((err, values) => {
       if (!err)
         onOk && onOk(values)
+      else
+        onError && onError('Preencha ao menos o campo Nome e o campo CPF')
     })
   }
 

@@ -8,6 +8,9 @@ function getUserById (id) {
       .then(res => {
         resolve(res)
       })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -16,6 +19,9 @@ function getUsers () {
     axios.get(`${api}/get-users`)
       .then(res => {
         resolve(res)
+      })
+      .catch(err => {
+        reject(err)
       })
   })
 }
@@ -26,6 +32,9 @@ function getUsersByName (name) {
       .then(res => {
         resolve(res)
       })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -34,6 +43,9 @@ function postUser (params) {
     axios.post(`${api}/create-user`, params)
       .then(res => {
         resolve(res)
+      })
+      .catch(err => {
+        reject(err)
       })
   })
 }
@@ -44,6 +56,9 @@ function deleteUser (id) {
       .then(res => {
         resolve(res)
       })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -52,6 +67,9 @@ function editUser (params) {
     axios.put(`${api}/edit-user`, params)
       .then(res => {
         resolve(res)
+      })
+      .catch(err => {
+        reject(err)
       })
   })
 }

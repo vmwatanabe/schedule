@@ -8,6 +8,9 @@ function getMedicsById (id) {
       .then(res => {
         resolve(res)
       })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -16,6 +19,9 @@ function getMedics () {
     axios.get(`${api}/get-medics`)
       .then(res => {
         resolve(res)
+      })
+      .catch(err => {
+        reject(err)
       })
   })
 }
@@ -26,6 +32,9 @@ function getMedicsByName (name) {
       .then(res => {
         resolve(res)
       })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -34,6 +43,9 @@ function postMedic (params) {
     axios.post(`${api}/create-medic`, params)
       .then(res => {
         resolve(res)
+      })
+      .catch(err => {
+        reject(err)
       })
   })
 }
@@ -44,6 +56,9 @@ function deleteMedic (id) {
       .then(res => {
         resolve(res)
       })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -52,6 +67,9 @@ function editMedic (params) {
     axios.put(`${api}/edit-medic`, params)
       .then(res => {
         resolve(res)
+      })
+      .catch(err => {
+        reject(err)
       })
   })
 }

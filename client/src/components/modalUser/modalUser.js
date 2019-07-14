@@ -3,10 +3,6 @@ import { Modal } from 'antd'
 
 import FormUser from '../../components/formUser/formUser'
 
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field])
-}
-
 class ModalUser extends Component {
   constructor(props) {
     super(props)
@@ -15,13 +11,15 @@ class ModalUser extends Component {
   }
 
   handleOk = e => {
-    const {onOk} = this.props
+    const {onOk, onError} = this.props
 
     const {form} = this.formRef.props
 
     form.validateFields((err, values) => {
       if (!err)
         onOk && onOk(values)
+      else
+        onError && onError('Preencha ao menos o campo Nome e o campo CPF')
     })
   }
 

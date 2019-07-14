@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Divider, Input} from 'antd'
+import { Table, Button, Divider, Input, notification } from 'antd'
 
 import ModalUser from '../../components/modalUser/modalUser'
 
@@ -106,6 +106,9 @@ class Medics extends Component {
           modalOpen: false
         }, this.getUsers.bind(this))
       })
+      .catch(err => {
+        this.onSaveUserError('CPF já cadastrado')
+      })
   }
 
   onEditUser(params) {
@@ -120,6 +123,9 @@ class Medics extends Component {
           modalIsEditing: false,
           modalEditingData: null
         }, this.getUsers.bind(this))
+      })
+      .catch(err => {
+        this.onSaveUserError('CPF já cadastrado')
       })
   }
 
@@ -158,6 +164,13 @@ class Medics extends Component {
       })
   }
 
+  onSaveUserError(description) {
+    notification.open({
+      message: 'Erro ao salvar usuário!',
+      description: description
+    })
+  }
+
   render () {
     const {loading, currentUsers} = this.state
 
@@ -177,6 +190,7 @@ class Medics extends Component {
         <ModalUser
           visible={this.state.modalOpen}
           onOk={this.onOk.bind(this)}
+          onError={this.onSaveUserError.bind(this)}
           title={this.state.modalIsEditing ? 'Editando usuário' : null}
           onCancel={() => this.setState({modalOpen: false, modalIsEditing: false, modalEditingData: null})}
           editing={this.state.modalIsEditing}

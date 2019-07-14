@@ -8,6 +8,9 @@ function getConsultationById (id) {
       .then(res => {
         resolve(res)
       })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -18,6 +21,9 @@ function getConsultations (params) {
       .then(res => {
         resolve(res)
       })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -26,6 +32,9 @@ function postConsultation (params) {
     axios.post(`${api}/create-consultation`, params)
       .then(res => {
         resolve(res)
+      })
+      .catch(err => {
+        reject(err)
       })
   })
 }
@@ -36,6 +45,9 @@ function deleteConsultation (id) {
       .then(res => {
         resolve(res)
       })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -44,6 +56,9 @@ function editConsultation (params) {
     axios.put(`${api}/edit-consultation`, params)
       .then(res => {
         resolve(res)
+      })
+      .catch(err => {
+        reject(err)
       })
   })
 }

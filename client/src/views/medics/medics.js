@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Divider, Input } from 'antd'
+import { Table, Button, Divider, Input, notification } from 'antd'
 
 import ModalMedic from '../../components/modalMedic/modalMedic'
 
@@ -116,6 +116,9 @@ class Medics extends Component {
           modalOpen: false
         }, this.getMedics.bind(this))
       })
+      .catch(err => {
+        this.onSaveMedicError('CPF já cadastrado')
+      })
   }
 
   onEditMedic(params) {
@@ -130,6 +133,9 @@ class Medics extends Component {
           modalIsEditing: false,
           modalEditingData: null
         }, this.getMedics.bind(this))
+      })
+      .catch(err => {
+        this.onSaveMedicError('CPF já cadastrado')
       })
   }
 
@@ -158,6 +164,12 @@ class Medics extends Component {
       })
   }
 
+  onSaveMedicError(description) {
+    notification.open({
+      message: 'Erro ao salvar médico!',
+      description: description
+    })
+  }
 
   render () {
     const {loading, currentMedics} = this.state
@@ -181,6 +193,7 @@ class Medics extends Component {
           title={this.state.modalIsEditing ? 'Editando médico' : null}
           onCancel={() => this.setState({modalOpen: false, modalIsEditing: false, modalEditingData: null})}
           editing={this.state.modalIsEditing}
+          onError={this.onSaveMedicError.bind(this)}
           editingData={this.state.modalEditingData}
         />
         <Table
