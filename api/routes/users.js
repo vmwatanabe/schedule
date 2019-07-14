@@ -4,7 +4,9 @@ const Op = Sequelize.Op
 
 const RouterUser = {
   getAll: async (req, res) => {
-    const users = await UsersModel.findAll()
+    const users = await UsersModel.findAll({
+      order: [['name', 'ASC']]
+    })
     res.json(users)
   },
 
@@ -12,6 +14,7 @@ const RouterUser = {
     const {name} = req.query
 
     const users = await UsersModel.findAll({
+      order: [['name', 'ASC']],
       where: {
         name: {
           [Op.like]: `%${name}%`
