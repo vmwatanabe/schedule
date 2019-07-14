@@ -35,11 +35,11 @@ const RouterUser = {
   },
 
   post: async (req, res) => {
-    const {name, email, phone} = req.body
-    if (!name) {
-      return res.status(500).send('Invalid name!')
+    const {name, email, phone, document} = req.body
+    if (!(name && document)) {
+      return res.status(500).send('Invalid name and/or document!')
     }
-    const medic = await MedicsModel.create({name, email, phone})
+    const medic = await MedicsModel.create({name, email, phone, document})
     res.json(medic);
   },
 

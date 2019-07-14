@@ -17,6 +17,11 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
+      document: {
+        allowNull: false,
+        unique: true,
+        type: Sequelize.STRING,
+      },
       phone: {
         allowNull: true,
         type: Sequelize.STRING,
@@ -44,6 +49,11 @@ module.exports = {
           },
           email: {
             allowNull: true,
+            type: Sequelize.STRING,
+          },
+          document: {
+            allowNull: false,
+            unique: true,
             type: Sequelize.STRING,
           },
           phone: {
