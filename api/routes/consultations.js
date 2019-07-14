@@ -38,6 +38,16 @@ const RouterConsultationsModel = {
     res.json(medic);
   },
 
+  put: async (req, res) => {
+    const {id, userId, medicId, scheduledTo} = req.body
+    if (!(id && userId && medicId && scheduledTo)) {
+      return res.status(500).send('Invalid data!')
+    }
+    const consultation = await ConsultationsModel.findByPk(id)
+
+    consultation && consultation.update({userId, medicId, scheduledTo}).then(() => res.json(consultation))
+  },
+
   removeById: async (req, res) => {
     const {id} = req.body
 

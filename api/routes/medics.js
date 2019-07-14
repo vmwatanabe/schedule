@@ -43,6 +43,16 @@ const RouterUser = {
     res.json(medic);
   },
 
+  put: async (req, res) => {
+    const {id, name, email, phone, document} = req.body
+    if (!(id && name && document)) {
+      return res.status(500).send('Invalid name and/or document!')
+    }
+    const medic = await MedicsModel.findByPk(id)
+
+    medic && medic.update({name, email, phone, document}).then(() => res.json(medic))
+  },
+
   removeById: async (req, res) => {
     const {id} = req.body
 
