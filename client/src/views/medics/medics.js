@@ -199,7 +199,7 @@ class Medics extends Component {
         <Table
           columns={this.columns}
           loading={loading}
-          dataSource={currentMedics}
+          dataSource={currentMedics.map(elem => ({...elem, key: elem.id}))}
         />
       </div>
     )

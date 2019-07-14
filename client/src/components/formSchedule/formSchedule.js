@@ -87,7 +87,7 @@ class FormSchedule extends Component {
               }
             >
               {this.state.medicsList.map(elem => {
-                return (<Option value={elem.id}>{elem.name}</Option>)
+                return (<Option key={elem.id} value={elem.id}>{elem.name}</Option>)
               })}
             </Select>
           )}
@@ -107,7 +107,7 @@ class FormSchedule extends Component {
               }
             >
               {this.state.usersList.map(elem => {
-                return (<Option value={elem.id}>{elem.name}</Option>)
+                return (<Option key={elem.id} value={elem.id}>{elem.name}</Option>)
               })}
             </Select>
           )}

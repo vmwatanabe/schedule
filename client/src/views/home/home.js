@@ -221,7 +221,7 @@ class Home extends Component {
               }
             >
               {this.state.usersList.map(elem => {
-                return (<Option value={elem.id}>{elem.name}</Option>)
+                return (<Option key={elem.id} value={elem.id}>{elem.name}</Option>)
               })}
             </Select>
             <Select
@@ -236,7 +236,7 @@ class Home extends Component {
               }
             >
               {this.state.medicsList.map(elem => {
-                return (<Option value={elem.id}>{elem.name}</Option>)
+                return (<Option key={elem.id} value={elem.id}>{elem.name}</Option>)
               })}
             </Select>
             <span className="date-from">
@@ -257,7 +257,7 @@ class Home extends Component {
         <Table
           columns={this.columns}
           loading={loading}
-          dataSource={currentConsultations}
+          dataSource={currentConsultations.map(elem => ({...elem, key: elem.id}))}
         />
       </div>
     )

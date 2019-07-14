@@ -4,10 +4,12 @@ import { Modal } from 'antd'
 import FormMedic from '../../components/formMedic/formMedic'
 
 class ModalMedic extends Component {
-  constructor(props) {
-    super(props)
+  componentDidUpdate(prevProps) {
+    const {visible} = this.props
 
-    this.state = {}
+    if (prevProps.visible && !visible) {
+      this.formRef && this.formRef.props && this.formRef.props.form.resetFields()
+    }
   }
 
   handleOk = e => {

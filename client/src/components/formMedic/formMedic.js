@@ -8,8 +8,7 @@ class FormMedic extends Component {
 
   handleReset = () => {
     this.props.form.resetFields()
-  };
-
+  }
 
   render() {
     const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form
