@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Divider, Select } from 'antd'
+import { Table, Button, Divider, Select, Switch } from 'antd'
 
 import ModalSchedule from '../../components/modalSchedule/modalSchedule'
 
@@ -21,6 +21,7 @@ class Home extends Component {
       currentConsultations: [],
       medicsList: [],
       usersList: [],
+      sinceToday: true,
       currentMedicId: null,
       currentUserId: null,
       loading: false,
@@ -117,11 +118,12 @@ class Home extends Component {
   }
 
   getConsultations() {
-    const {currentMedicId, currentUserId} = this.state
+    const {currentMedicId, currentUserId, sinceToday} = this.state
 
     const params = {}
     if (currentMedicId) params.medicId = currentMedicId
     if (currentUserId) params.userId = currentUserId
+    if (sinceToday) params.scheduledFrom = moment().startOf('day').toISOString()
 
     ConsultationsService.getConsultations(params)
       .then(res => {
@@ -193,6 +195,12 @@ class Home extends Component {
     }, this.getConsultations.bind(this))
   }
 
+  onChangeSwitch(checked) {
+    this.setState({
+      sinceToday: checked
+    }, this.getConsultations.bind(this))
+  }
+
   render () {
     const {loading, currentConsultations} = this.state
 
@@ -231,6 +239,10 @@ class Home extends Component {
                 return (<Option value={elem.id}>{elem.name}</Option>)
               })}
             </Select>
+            <span className="date-from">
+              <Switch defaultChecked onChange={this.onChangeSwitch.bind(this)} />
+              A partir de hoje
+            </span>
           </div>
           <Button onClick={() => this.setState({modalOpen: true})}>Criar consulta</Button>
         </div>
