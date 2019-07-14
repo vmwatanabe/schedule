@@ -44,6 +44,16 @@ const RouterUser = {
       return res.status(500).send('Invalid name and/or document!')
     }
 
+    const userExists = await UsersModel.findAll({
+      where: {
+        document
+      }
+    })
+
+    if (userExists && userExists.length) {
+      return res.status(500).send('Document already registered')
+    }
+
     const user = await UsersModel.create({name, email, phone, document})
     res.json(user)
   },
@@ -53,6 +63,20 @@ const RouterUser = {
     if (!(id && name && document)) {
       return res.status(500).send('Invalid name and/or document!')
     }
+
+    const userExists = await UsersModel.findAll({
+      where: {
+        id: {
+          [Op.not]: id
+        },
+        document
+      }
+    })
+
+    if (userExists && userExists.length) {
+      return res.status(500).send('Document already registered')
+    }
+
     const user = await UsersModel.findByPk(id)
 
     user && user.update({name, email, phone, document}).then(() => res.json(user))

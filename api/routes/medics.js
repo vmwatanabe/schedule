@@ -42,6 +42,17 @@ const RouterUser = {
     if (!(name && document)) {
       return res.status(500).send('Invalid name and/or document!')
     }
+
+    const medicExists = await MedicsModel.findAll({
+      where: {
+        document
+      }
+    })
+
+    if (medicExists && medicExists.length) {
+      return res.status(500).send('Document already registered')
+    }
+
     const medic = await MedicsModel.create({name, email, phone, document})
     res.json(medic);
   },
@@ -51,6 +62,20 @@ const RouterUser = {
     if (!(id && name && document)) {
       return res.status(500).send('Invalid name and/or document!')
     }
+
+    const medicExists = await MedicsModel.findAll({
+      where: {
+        id: {
+          [Op.not]: id
+        },
+        document
+      }
+    })
+
+    if (medicExists && medicExists.length) {
+      return res.status(500).send('Document already registered')
+    }
+
     const medic = await MedicsModel.findByPk(id)
 
     medic && medic.update({name, email, phone, document}).then(() => res.json(medic))
