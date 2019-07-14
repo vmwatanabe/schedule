@@ -1,0 +1,36 @@
+.header {
+  position: relative;
+  display: flex;
+
+  padding-bottom: 15px;
+  border-bottom: 1px solid #CCC;
+}
+
+.main .title {
+  font-size: 50px;
+  display: block;
+  font-weight: 700;
+}
+
+.main .subtitle {
+  display: block;
+  font-size: 16px;
+}
+
+.routes {
+  border-top: 1px solid #DDD;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  align-items: center;
+  display: flex;
+}
+
+.routes span {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.routes span:not(:last-child) {
+  margin-right: 30px;
+}
