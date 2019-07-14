@@ -5,6 +5,8 @@ import ModalUser from '../../components/modalUser/modalUser'
 
 import UsersService from '../../services/users'
 
+import './users.css'
+
 class Medics extends Component {
   constructor(props) {
     super(props)
@@ -102,7 +104,12 @@ class Medics extends Component {
 
     return (
       <div className="users">
-        <Button onClick={() => this.setState({modalOpen: true})}>Criar usuário</Button>
+        <div className="details">
+          <div className="title">
+            <span>Usuários</span>
+          </div>
+          <Button onClick={() => this.setState({modalOpen: true})}>Criar usuário</Button>
+        </div>
         <ModalUser
           visible={this.state.modalOpen}
           onOk={this.onCreateUser.bind(this)}

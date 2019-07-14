@@ -5,6 +5,8 @@ import ModalSchedule from '../../components/modalSchedule/modalSchedule'
 
 import ConsultationsService from '../../services/consultations'
 
+import './home.css'
+
 class Home extends Component {
   constructor(props) {
     super(props)
@@ -98,7 +100,12 @@ class Home extends Component {
 
     return (
       <div className="home">
-        <Button onClick={() => this.setState({modalOpen: true})}>Criar consulta</Button>
+        <div className="details">
+          <div className="title">
+            <span>Consultas</span>
+          </div>
+          <Button onClick={() => this.setState({modalOpen: true})}>Criar consulta</Button>
+        </div>
         <ModalSchedule
           visible={this.state.modalOpen}
           onOk={this.onCreateConsultation.bind(this)}

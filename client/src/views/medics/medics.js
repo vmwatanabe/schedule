@@ -5,6 +5,8 @@ import ModalMedic from '../../components/modalMedic/modalMedic'
 
 import MedicsService from '../../services/medics'
 
+import './medics.css'
+
 class Medics extends Component {
   constructor(props) {
     super(props)
@@ -102,7 +104,12 @@ class Medics extends Component {
 
     return (
       <div className="medics">
-        <Button onClick={() => this.setState({modalOpen: true})}>Criar médico</Button>
+        <div className="details">
+          <div className="title">
+            <span>Médicos</span>
+          </div>
+          <Button onClick={() => this.setState({modalOpen: true})}>Criar médico</Button>
+        </div>
         <ModalMedic
           visible={this.state.modalOpen}
           onOk={this.onCreateMedic.bind(this)}

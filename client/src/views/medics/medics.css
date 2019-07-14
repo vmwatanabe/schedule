@@ -1,0 +1,21 @@
+.medics {
+  margin-top: 15px;
+}
+
+.details {
+  position: relative;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.title {
+  display: block;
+}
+
+.title span {
+  font-size: 22px;
+}
+
+.details button {
+  margin-left: auto;
+}
