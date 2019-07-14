@@ -3,18 +3,24 @@ const UsersModel = require('../app/models')['Users']
 const MedicsModel = require('../app/models')['Medics']
 
 const Sequelize = require('sequelize')
+const moment = require('moment')
 const Op = Sequelize.Op
 
 const RouterConsultationsModel = {
   getAll: async (req, res) => {
-    const {medicId, userId} = req.query
+    const {medicId, userId, scheduledFrom} = req.query
 
     const whereClause = {}
     if (medicId) whereClause.medicId = medicId
     if (userId) whereClause.userId = userId
+    if (scheduledFrom)
+      whereClause.scheduledTo = {
+        [Op.gte]: moment(scheduledFrom).toDate()
+      }
 
     const consultations = await ConsultationsModel.findAll({
       where: whereClause,
+      order: [['scheduledTo', 'ASC']],
       include: [
         {
           model: UsersModel
