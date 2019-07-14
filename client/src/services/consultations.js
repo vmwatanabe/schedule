@@ -11,10 +11,10 @@ function getConsultationById (id) {
   })
 }
 
-function getConsultations () {
+function getConsultations (params) {
 
   return new Promise((resolve, reject) => {
-    axios.get(`${api}/get-consultations`)
+    axios.get(`${api}/get-consultations`, {params})
       .then(res => {
         resolve(res)
       })

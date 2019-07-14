@@ -8,14 +8,22 @@
   margin-bottom: 15px;
 }
 
-.title {
-  display: block;
+.details .title {
+  display: flex;
 }
 
-.title span {
+.title .ant-select {
+  margin-left: 30px;
+}
+
+.details .title span {
   font-size: 22px;
 }
 
 .details button {
   margin-left: auto;
+}
+
+.ant-select-arrow i {
+  font-size: 13px;
 }

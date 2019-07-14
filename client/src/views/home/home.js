@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
-import { Table, Button, Divider } from 'antd'
+import { Table, Button, Divider, Select } from 'antd'
 
 import ModalSchedule from '../../components/modalSchedule/modalSchedule'
 
+import MedicsService from '../../services/medics'
+import UsersService from '../../services/users'
 import ConsultationsService from '../../services/consultations'
 
 import moment from 'moment'
 
 import './home.css'
+
+const { Option } = Select
 
 class Home extends Component {
   constructor(props) {
@@ -15,7 +19,13 @@ class Home extends Component {
 
     this.state = {
       currentConsultations: [],
+      medicsList: [],
+      usersList: [],
+      currentMedicId: null,
+      currentUserId: null,
       loading: false,
+      loadingMedics: false,
+      loadingUsers: false,
       modalOpen: false,
       modalIsEditing: false,
       modalEditingData: null
@@ -56,6 +66,40 @@ class Home extends Component {
 
   componentDidMount() {
     this.setLoading(this.getConsultations.bind(this))
+    this.getMedics()
+    this.getUsers()
+  }
+
+  getMedics() {
+    MedicsService.getMedics()
+      .then(res => {
+        this.setState({
+          loadingMedics: false,
+          medicsList: res.data || []
+        })
+      })
+      .catch(err => {
+        this.setState({
+          loadingMedics: false
+        })
+        console.log('error: ', err)
+      })
+  }
+
+  getUsers() {
+    UsersService.getUsers()
+      .then(res => {
+        this.setState({
+          loadingUsers: false,
+          usersList: res.data || []
+        })
+      })
+      .catch(err => {
+        this.setState({
+          loadingUsers: false
+        })
+        console.log('error: ', err)
+      })
   }
 
   setLoading(callback) {
@@ -73,7 +117,13 @@ class Home extends Component {
   }
 
   getConsultations() {
-    ConsultationsService.getConsultations()
+    const {currentMedicId, currentUserId} = this.state
+
+    const params = {}
+    if (currentMedicId) params.medicId = currentMedicId
+    if (currentUserId) params.userId = currentUserId
+
+    ConsultationsService.getConsultations(params)
       .then(res => {
         this.setState({
           loading: false,
@@ -131,6 +181,18 @@ class Home extends Component {
       })
   }
 
+  onUserSelect(userId) {
+    this.setState({
+      currentUserId: userId
+    }, this.getConsultations.bind(this))
+  }
+
+  onMedicSelect(medicId) {
+    this.setState({
+      currentMedicId: medicId
+    }, this.getConsultations.bind(this))
+  }
+
   render () {
     const {loading, currentConsultations} = this.state
 
@@ -139,6 +201,36 @@ class Home extends Component {
         <div className="details">
           <div className="title">
             <span>Consultas</span>
+            <Select
+              allowClear
+              showSearch
+              placeholder="Selecione o paciente"
+              optionFilterProp="children"
+              onChange={this.onUserSelect.bind(this)}
+              style={{ width: 300 }}
+              filterOption={(input, option) =>
+                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {this.state.usersList.map(elem => {
+                return (<Option value={elem.id}>{elem.name}</Option>)
+              })}
+            </Select>
+            <Select
+              allowClear
+              showSearch
+              placeholder="Selecione o médico"
+              optionFilterProp="children"
+              onChange={this.onMedicSelect.bind(this)}
+              style={{ width: 300 }}
+              filterOption={(input, option) =>
+                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {this.state.medicsList.map(elem => {
+                return (<Option value={elem.id}>{elem.name}</Option>)
+              })}
+            </Select>
           </div>
           <Button onClick={() => this.setState({modalOpen: true})}>Criar consulta</Button>
         </div>
