@@ -54,7 +54,7 @@ const RouterUser = {
     const user = await UsersModel.findByPk(id)
     user && user.destroy()
     
-    return res.status(200)
+    res.status(200).send('Sucessfully deleted')
   }
 }
 

@@ -46,13 +46,14 @@ const RouterUser = {
   removeById: async (req, res) => {
     const {id} = req.body
 
+
     if (!id)
       return res.status(500).send('Invalid id!')
 
     const medic = await MedicsModel.findByPk(id)
     medic && medic.destroy()
-    
-    return res.status(200)
+
+    res.status(200).send('Sucessfully deleted')
   }
 }
 

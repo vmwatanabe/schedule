@@ -47,7 +47,7 @@ const RouterConsultationsModel = {
     const consultation = await ConsultationsModel.findByPk(id)
     consultation && consultation.destroy()
 
-    return res.status(200)
+    return res.status(200).send('Sucessfully deleted!')
   }
 }
 
