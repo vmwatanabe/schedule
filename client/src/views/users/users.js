@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
+import { Table, Button, Divider } from 'antd'
 
 import ModalUser from '../../components/modalUser/modalUser'
 
@@ -14,7 +14,9 @@ class Medics extends Component {
     this.state = {
       currentUsers: [],
       loading: false,
-      modalOpen: false
+      modalOpen: false,
+      modalIsEditing: false,
+      modalEditingData: null
     }
 
     this.columns = [
@@ -45,7 +47,8 @@ class Medics extends Component {
         key: 'action',
         render: (text, record) => (
           <div className="actions">
-            <span onClick={() => 1}>Editar</span>
+            <span onClick={() => this.setEditingData(record)}>Editar</span>
+            <Divider type="vertical" />
             <span onClick={() => this.setLoading(this.deleteUser.bind(this, record.id))}>Deletar</span>
           </div>
         ),
@@ -61,6 +64,14 @@ class Medics extends Component {
     this.setState({
       loading: true
     }, callback)
+  }
+
+  setEditingData(data) {
+    this.setState({
+      modalEditingData: data,
+      modalIsEditing: true,
+      modalOpen: true
+    })
   }
 
   getUsers() {
@@ -79,12 +90,35 @@ class Medics extends Component {
       })
   }
 
+  onOk(params) {
+    if (this.state.modalEditingData && this.state.modalEditingData.id) {
+      this.onEditUser(params)
+    } else {
+      this.onCreateUser(params)
+    }
+  }
+
   onCreateUser(params) {
     UsersService.postUser(params)
       .then(() => {
         this.setState({
           loading: false,
           modalOpen: false
+        }, this.getUsers.bind(this))
+      })
+  }
+
+  onEditUser(params) {
+    UsersService.editUser({
+      ...params,
+      id: this.state.modalEditingData.id
+    })
+      .then(() => {
+        this.setState({
+          loading: false,
+          modalOpen: false,
+          modalIsEditing: false,
+          modalEditingData: null
         }, this.getUsers.bind(this))
       })
   }
@@ -112,8 +146,11 @@ class Medics extends Component {
         </div>
         <ModalUser
           visible={this.state.modalOpen}
-          onOk={this.onCreateUser.bind(this)}
-          onCancel={() => this.setState({modalOpen: false})}
+          onOk={this.onOk.bind(this)}
+          title={this.state.modalIsEditing ? 'Editando usuário' : null}
+          onCancel={() => this.setState({modalOpen: false, modalIsEditing: false, modalEditingData: null})}
+          editing={this.state.modalIsEditing}
+          editingData={this.state.modalEditingData}
         />
         <Table
           columns={this.columns}

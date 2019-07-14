@@ -38,9 +38,19 @@ function deleteMedic (id) {
   })
 }
 
+function editMedic (params) {
+  return new Promise((resolve, reject) => {
+    axios.put(`${api}/edit-medic`, params)
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
 export default {
   getMedicsById,
   getMedics,
   postMedic,
-  deleteMedic
+  deleteMedic,
+  editMedic
 }

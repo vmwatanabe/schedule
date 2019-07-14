@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
+import { Table, Button, Divider } from 'antd'
 
 import ModalMedic from '../../components/modalMedic/modalMedic'
 
@@ -14,7 +14,9 @@ class Medics extends Component {
     this.state = {
       currentMedics: [],
       loading: false,
-      modalOpen: false
+      modalOpen: false,
+      modalIsEditing: false,
+      modalEditingData: null
     }
 
     this.columns = [
@@ -45,7 +47,8 @@ class Medics extends Component {
         key: 'action',
         render: (text, record) => (
           <div className="actions">
-            <span onClick={() => 1}>Editar</span>
+            <span onClick={() => this.setEditingData(record)}>Editar</span>
+            <Divider type="vertical" />
             <span onClick={() => this.setLoading(this.deleteMedic.bind(this, record.id))}>Deletar</span>
           </div>
         ),
@@ -61,6 +64,14 @@ class Medics extends Component {
     this.setState({
       loading: true
     }, callback)
+  }
+
+  setEditingData(data) {
+    this.setState({
+      modalEditingData: data,
+      modalIsEditing: true,
+      modalOpen: true
+    })
   }
 
   getMedics() {
@@ -89,12 +100,35 @@ class Medics extends Component {
       })
   }
 
+  onOk(params) {
+    if (this.state.modalEditingData && this.state.modalEditingData.id) {
+      this.onEditMedic(params)
+    } else {
+      this.onCreateMedic(params)
+    }
+  }
+
   onCreateMedic(params) {
     MedicsService.postMedic(params)
       .then(() => {
         this.setState({
           loading: false,
           modalOpen: false
+        }, this.getMedics.bind(this))
+      })
+  }
+
+  onEditMedic(params) {
+    MedicsService.editMedic({
+      ...params,
+      id: this.state.modalEditingData.id
+    })
+      .then(() => {
+        this.setState({
+          loading: false,
+          modalOpen: false,
+          modalIsEditing: false,
+          modalEditingData: null
         }, this.getMedics.bind(this))
       })
   }
@@ -112,8 +146,11 @@ class Medics extends Component {
         </div>
         <ModalMedic
           visible={this.state.modalOpen}
-          onOk={this.onCreateMedic.bind(this)}
-          onCancel={() => this.setState({modalOpen: false})}
+          onOk={this.onOk.bind(this)}
+          title={this.state.modalIsEditing ? 'Editando médico' : null}
+          onCancel={() => this.setState({modalOpen: false, modalIsEditing: false, modalEditingData: null})}
+          editing={this.state.modalIsEditing}
+          editingData={this.state.modalEditingData}
         />
         <Table
           columns={this.columns}

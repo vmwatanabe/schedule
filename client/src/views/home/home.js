@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
+import { Table, Button, Divider } from 'antd'
 
 import ModalSchedule from '../../components/modalSchedule/modalSchedule'
 
 import ConsultationsService from '../../services/consultations'
+
+import moment from 'moment'
 
 import './home.css'
 
@@ -14,7 +16,9 @@ class Home extends Component {
     this.state = {
       currentConsultations: [],
       loading: false,
-      modalOpen: false
+      modalOpen: false,
+      modalIsEditing: false,
+      modalEditingData: null
     }
 
     this.columns = [
@@ -34,14 +38,15 @@ class Home extends Component {
         title: 'Data e hora',
         dataIndex: 'scheduledTo',
         key: 'scheduledTo',
-        render: date => <span>{date}</span>
+        render: date => <span>{date && moment(date).format('lll')}</span>
       },
       {
         title: 'Ações',
         key: 'action',
         render: (text, record) => (
           <div className="actions">
-            <span onClick={() => 1}>Editar</span>
+            <span onClick={() => this.setEditingData(record)}>Editar</span>
+            <Divider type="vertical" />
             <span onClick={() => this.setLoading(this.deleteConsultation.bind(this, record.id))}>Deletar</span>
           </div>
         ),
@@ -57,6 +62,14 @@ class Home extends Component {
     this.setState({
       loading: true
     }, callback)
+  }
+
+  setEditingData(data) {
+    this.setState({
+      modalEditingData: data,
+      modalIsEditing: true,
+      modalOpen: true
+    })
   }
 
   getConsultations() {
@@ -75,12 +88,35 @@ class Home extends Component {
       })
   }
 
+  onOk(params) {
+    if (this.state.modalEditingData && this.state.modalEditingData.id) {
+      this.onEditConsultation(params)
+    } else {
+      this.onCreateConsultation(params)
+    }
+  }
+
   onCreateConsultation(params) {
     ConsultationsService.postConsultation(params)
       .then(() => {
         this.setState({
           loading: false,
           modalOpen: false
+        }, this.getConsultations.bind(this))
+      })
+  }
+
+  onEditConsultation(params) {
+    ConsultationsService.editConsultation({
+      ...params,
+      id: this.state.modalEditingData.id
+    })
+      .then(() => {
+        this.setState({
+          loading: false,
+          modalOpen: false,
+          modalIsEditing: false,
+          modalEditingData: null
         }, this.getConsultations.bind(this))
       })
   }
@@ -108,8 +144,11 @@ class Home extends Component {
         </div>
         <ModalSchedule
           visible={this.state.modalOpen}
-          onOk={this.onCreateConsultation.bind(this)}
-          onCancel={() => this.setState({modalOpen: false})}
+          onOk={this.onOk.bind(this)}
+          title={this.state.modalIsEditing ? 'Editando consulta' : null}
+          onCancel={() => this.setState({modalOpen: false, modalIsEditing: false, modalEditingData: null})}
+          editing={this.state.modalIsEditing}
+          editingData={this.state.modalEditingData}
         />
         <Table
           columns={this.columns}

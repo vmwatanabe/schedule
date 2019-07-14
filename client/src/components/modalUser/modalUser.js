@@ -35,7 +35,7 @@ class ModalUser extends Component {
   }
 
   render() {
-    const {title} = this.props
+    const {title, editing, editingData} = this.props
 
     return (
       <Modal
@@ -45,6 +45,7 @@ class ModalUser extends Component {
         onCancel={this.handleCancel}
       >
         <FormUser
+          initialValue={editing && editingData}
           wrappedComponentRef={node => this.formRef = node}
         />
       </Modal>

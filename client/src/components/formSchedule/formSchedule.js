@@ -4,6 +4,8 @@ import { Form, DatePicker, Button, Select } from 'antd'
 import MedicsService from '../../services/medics'
 import UsersService from '../../services/users'
 
+import moment from 'moment'
+
 const { Option } = Select
 
 class FormSchedule extends Component {
@@ -63,6 +65,8 @@ class FormSchedule extends Component {
   render() {
     const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form
 
+    const {initialValue} = this.props
+
     const medicNameError = isFieldTouched('medicId') && getFieldError('medicId')
     const userError = isFieldTouched('userId') && getFieldError('userId')
     const scheduledError = isFieldTouched('scheduledTo') && getFieldError('scheduledTo')
@@ -71,6 +75,7 @@ class FormSchedule extends Component {
         <Form.Item validateStatus={medicNameError ? 'error' : ''} help={medicNameError || ''}>
           {getFieldDecorator('medicId', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
+            initialValue: (initialValue && initialValue.medicId) ? initialValue.medicId : null
           })(
             <Select
               showSearch
@@ -90,6 +95,7 @@ class FormSchedule extends Component {
         <Form.Item validateStatus={userError ? 'error' : ''} help={userError || ''}>
           {getFieldDecorator('userId', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
+            initialValue: (initialValue && initialValue.userId) ? initialValue.userId : null
           })(
             <Select
               showSearch
@@ -109,6 +115,7 @@ class FormSchedule extends Component {
         <Form.Item validateStatus={scheduledError ? 'error' : ''} help={scheduledError || ''}>
           {getFieldDecorator('scheduledTo', {
             rules: [{ required: true, message: 'Campo obrigatório' }],
+            initialValue: (initialValue && initialValue.scheduledTo) ? moment(initialValue.scheduledTo) : null
           })(
             <DatePicker
               showTime

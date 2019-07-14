@@ -39,9 +39,19 @@ function deleteConsultation (id) {
   })
 }
 
+function editConsultation (params) {
+  return new Promise((resolve, reject) => {
+    axios.put(`${api}/edit-consultation`, params)
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
 export default {
   getConsultationById,
   getConsultations,
   postConsultation,
   deleteConsultation,
+  editConsultation
 }

@@ -31,8 +31,7 @@ class ModalMedic extends Component {
   }
 
   render() {
-    const {title} = this.props
-
+    const {title, editing, editingData} = this.props
 
     return (
       <Modal
@@ -42,6 +41,7 @@ class ModalMedic extends Component {
         onCancel={this.handleCancel}
       >
         <FormMedic
+          initialValue={editing && editingData}
           wrappedComponentRef={node => this.formRef = node}
         />
       </Modal>

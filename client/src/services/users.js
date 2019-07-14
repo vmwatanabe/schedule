@@ -38,9 +38,19 @@ function deleteUser (id) {
   })
 }
 
+function editUser (params) {
+  return new Promise((resolve, reject) => {
+    axios.put(`${api}/edit-user`, params)
+      .then(res => {
+        resolve(res)
+      })
+  })
+}
+
 export default {
   getUserById,
   getUsers,
   postUser,
   deleteUser,
+  editUser
 }
