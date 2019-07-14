@@ -7,7 +7,14 @@ const Op = Sequelize.Op
 
 const RouterConsultationsModel = {
   getAll: async (req, res) => {
+    const {medicId, userId} = req.query
+
+    const whereClause = {}
+    if (medicId) whereClause.medicId = medicId
+    if (userId) whereClause.userId = userId
+
     const consultations = await ConsultationsModel.findAll({
+      where: whereClause,
       include: [
         {
           model: UsersModel
