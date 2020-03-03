@@ -2,6 +2,8 @@
 
 Olá!
 
+**FAVOR MUDAR PARA A BRANCH DEVELOP**
+
 Bem vindos ao Schedule, aplicação para agendamento e gerenciamento de consultas, com cadastro de usuários e médicos.
 
 Para executar, espera-se o MySQL com as seguintes configurações:
